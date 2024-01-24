@@ -61,4 +61,3 @@ test/cover:
 .PHONY: push
 push: tidy audit no-dirty
 	git push
-	 {{.}}

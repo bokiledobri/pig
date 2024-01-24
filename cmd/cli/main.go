@@ -9,5 +9,5 @@ import (
 
 func main() {
     g := generator.New("myProject")
-	fmt.Println(g.GenerateProject("cli"))
+	fmt.Println(g.GenerateProject("web"))
 }
