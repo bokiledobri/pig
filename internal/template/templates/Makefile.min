@@ -1,3 +1,6 @@
+# Change these variables as necessary.
+MAIN_PACKAGE_PATH := ./cmd/{{.AppType}}
+BINARY_NAME := {{.AppType}}
 
 # ==================================================================================== #
 # HELPERS
@@ -53,6 +56,27 @@ test/cover:
 	go test -v -race -buildvcs -coverprofile=/tmp/coverage.out ./...
 	go tool cover -html=/tmp/coverage.out
 
+## build: build the application
+.PHONY: build
+build:
+	# Include additional build steps, like TypeScript, SCSS or Tailwind compilation here...
+	go build -o=/tmp/bin/${BINARY_NAME} ${MAIN_PACKAGE_PATH}
+
+## run: run the  application
+.PHONY: run
+run: build
+	/tmp/bin/${BINARY_NAME}
+
+## dev: run the application with reloading on file changes
+.PHONY: dev
+dev:
+	go run github.com/cosmtrek/air@v1.43.0 \
+	 --build.cmd "make build" --build.bin "/tmp/bin/${BINARY_NAME}" --build.delay "100" \
+	 --build.exclude_dir "" \
+	 --build.include_ext "go, tpl, tmpl, html, css, scss, js, ts, sql, jpeg, jpg, gif, png, bmp, svg, webp, ico" \
+	 --misc.clean_on_exit "true"
+
+
 # ==================================================================================== #
 # OPERATIONS
 # ==================================================================================== #
@@ -61,3 +85,10 @@ test/cover:
 .PHONY: push
 push: tidy audit no-dirty
 	git push
+
+## production/deploy: deploy the application to production
+.PHONY: production/deploy
+production/deploy: confirm tidy audit no-dirty
+	GOOS=linux GOARCH=amd64 go build -ldflags='-s' -o=/tmp/bin/linux_amd64/${BINARY_NAME} ${MAIN_PACKAGE_PATH}
+	upx -5 /tmp/bin/linux_amd64/${BINARY_NAME}
+	# Include additional deployment steps here...

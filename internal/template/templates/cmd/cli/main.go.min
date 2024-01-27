@@ -3,5 +3,5 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("{{.AppName}} is a minimal generated project with gomakegen")
+	fmt.Println("{{.AppName}} is a minimal project generated with pig")
 }

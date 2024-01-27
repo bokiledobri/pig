@@ -3,11 +3,17 @@ package main
 import (
 	"fmt"
 
-	"github.com/bokiledobri/gomakegen/internal/generator"
+	"github.com/bokiledobri/pig/internal/generator"
 )
 
-
 func main() {
-    g := generator.New("myProject")
-	fmt.Println(g.GenerateProject("web"))
+	g := generator.New()
+	err, data := parseArgs()
+    if err!=nil{
+        panic(err)
+    }
+	switch data.GenType {
+	case "project":
+		fmt.Println(g.GenerateProject(data))
+	}
 }

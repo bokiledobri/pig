@@ -1,3 +1,3 @@
-module github.com/bokiledobri/gomakegen
+module github.com/bokiledobri/pig
 
 go 1.21.6

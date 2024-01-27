@@ -1,6 +1,6 @@
 # Change these variables as necessary.
-MAIN_PACKAGE_PATH := ./cmd/cli
-BINARY_NAME := pig
+MAIN_PACKAGE_PATH := ./cmd/web
+BINARY_NAME := web
 
 # ==================================================================================== #
 # HELPERS
@@ -50,11 +50,6 @@ audit:
 test:
 	go test -v -race -buildvcs ./...
 
-##install: install binary in /usr/local/bin
-.PHONY: install
-install:
-	go build -o=/usr/local/bin/$(BINARY_NAME) ./cmd/cli 
-
 ## test/cover: run all tests and display coverage
 .PHONY: test/cover
 test/cover:
@@ -71,9 +66,6 @@ build:
 .PHONY: run
 run: build
 	/tmp/bin/${BINARY_NAME}
-	cd myProject && make run 
-	cd .. 
-	rm -rf myProject
 
 ## dev: run the application with reloading on file changes
 .PHONY: dev

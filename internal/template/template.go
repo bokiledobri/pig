@@ -14,6 +14,7 @@ type Template struct {
 	template *template.Template
 }
 
+
 func New(name string) *Template {
 	t := template.New(name)
 	rt := &Template{

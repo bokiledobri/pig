@@ -4,17 +4,16 @@ import (
 	"os"
 	"strings"
 
-	"github.com/bokiledobri/gomakegen/internal/template"
+	"github.com/bokiledobri/pig/internal/template"
 )
-
 
 func makeFile(projectName string, fileName string, suffix string, args any) error {
 
 	nameSlice := strings.Split(fileName, "/")
 	dirs := nameSlice[:len(nameSlice)-1]
-    f := nameSlice[len(nameSlice)-1]
+	f := nameSlice[len(nameSlice)-1]
 	dirName := projectName + "/" + strings.Join(dirs, "/")
-	t := template.New(f+ "." + suffix)
+	t := template.New(f + "." + suffix)
 	t, err := t.Parse(fileName + "." + suffix)
 	if err != nil {
 		return err
@@ -27,5 +26,6 @@ func makeFile(projectName string, fileName string, suffix string, args any) erro
 	if err != nil {
 		return err
 	}
+    
 	return t.Execute(mk, args)
 }
