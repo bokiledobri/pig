@@ -82,7 +82,6 @@ func (g *Generator) generateProject() {
 		g.ErrorLog.Printf("Could not cd into project directory: %v\n", err.Error())
 		return
 	}
-	g.InfoLog.Println("running \"go mod init\"")
 	g.executeCommand("go mod init")
 	g.executeCommand("git init")
 	g.SuccessLog.Printf("Successfully created %s\n", g.AppName)
