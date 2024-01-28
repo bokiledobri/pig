@@ -5,7 +5,7 @@
    ```bash
    git clone https://github.com/bokiledobri/pig.git
    ```
-   From the project folder run "go install". The example below will install it in the /$HOME/local/bin:
+   From the project folder run "go install". The example below will install it in the /$HOME/.local/bin:
 
    ```bash
    cd pig
