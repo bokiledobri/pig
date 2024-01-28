@@ -41,44 +41,34 @@ func (g *Generator) generateProject() {
 	projectType := g.AppType
 	suffix := "min"
 	//Generate a Makefile
-	g.InfoLog.Println("Creating Makefile")
-	err := makeFile(g.AppName, "Makefile", suffix, g)
+	err := g.makeFile("Makefile", suffix, g)
 	if err != nil {
-		g.ErrorLog.Printf("Could not create Makefile: %v\n", err.Error())
 		return
 	}
 
 	//Generate a .gitignore file
-	g.InfoLog.Println("Creating .gitignore")
-	err = makeFile(g.AppName, ".gitignore", suffix, g)
+
+	err = g.makeFile(".gitignore", suffix, g)
 	if err != nil {
-		g.ErrorLog.Printf("Could not create .gitignore: %v\n", err.Error())
 		return
 	}
-
 	//Generate main.go file
-	g.InfoLog.Println("Creating main.go")
-	err = makeFile(g.AppName, "cmd/"+projectType+"/main.go", suffix, g)
+	err = g.makeFile("cmd/"+projectType+"/main.go", suffix, g)
 	if err != nil {
-		g.ErrorLog.Printf("Could not create main.go: %v\n", err.Error())
 		return
 	}
 
-	g.InfoLog.Println("Creating handlers.go")
 	if projectType == "web" || projectType == "api" {
 		//Generate handlers.go file
-		err = makeFile(g.AppName, "cmd/"+projectType+"/handlers.go", suffix, g)
+		err = g.makeFile("cmd/"+projectType+"/handlers.go", suffix, g)
 		if err != nil {
-			g.ErrorLog.Printf("Could not create handlers.go: %v\n", err.Error())
 			return
 		}
 	}
 	if projectType == "web" {
 		//Generate home template
-		g.InfoLog.Println("Creating home.tmpl")
-		err = makeFile(g.AppName, "ui/html/pages/home.tmpl", suffix, g)
+		err = g.makeFile("ui/html/pages/home.tmpl", suffix, g)
 		if err != nil {
-			g.ErrorLog.Printf("Could not create home.tmpl: %v\n", err.Error())
 			return
 		}
 
@@ -99,7 +89,7 @@ func (g *Generator) generateProject() {
 	err = exec.Command("git", "init").Run()
 
 	if err != nil {
-	g.ErrorLog.Printf("Could not initialize git repository: %v\n", err.Error())
-}
-    g.SuccessLog.Printf("Successfully created %s\n", g.AppName)
+		g.ErrorLog.Printf("Could not initialize git repository: %v\n", err.Error())
+	}
+	g.SuccessLog.Printf("Successfully created %s\n", g.AppName)
 }
