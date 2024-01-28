@@ -37,37 +37,41 @@ func (g *Generator) Generate() {
 // and defines the type of project to generate
 func (g *Generator) generateProject() {
 	// Generate files and folders for the new project
+    data := ProjectData{
+        AppName: g.AppName,
+        AppType: g.AppType,
+    }
 
 	projectType := g.AppType
 	suffix := "min"
 	//Generate a Makefile
-	err := g.makeFile("Makefile", suffix, g)
+	err := g.makeFile("Makefile", suffix, data)
 	if err != nil {
 		return
 	}
 
 	//Generate a .gitignore file
 
-	err = g.makeFile(".gitignore", suffix, g)
+	err = g.makeFile(".gitignore", suffix, data)
 	if err != nil {
 		return
 	}
 	//Generate main.go file
-	err = g.makeFile("cmd/"+projectType+"/main.go", suffix, g)
+	err = g.makeFile("cmd/"+projectType+"/main.go", suffix, data)
 	if err != nil {
 		return
 	}
 
 	if projectType == "web" || projectType == "api" {
 		//Generate handlers.go file
-		err = g.makeFile("cmd/"+projectType+"/handlers.go", suffix, g)
+		err = g.makeFile("cmd/"+projectType+"/handlers.go", suffix, data)
 		if err != nil {
 			return
 		}
 	}
 	if projectType == "web" {
 		//Generate home template
-		err = g.makeFile("ui/html/pages/home.tmpl", suffix, g)
+		err = g.makeFile("ui/html/pages/home.tmpl", suffix, data)
 		if err != nil {
 			return
 		}

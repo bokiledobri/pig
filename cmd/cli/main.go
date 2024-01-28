@@ -5,6 +5,7 @@ import (
 	"os"
 
 	"github.com/bokiledobri/pig/internal/generator"
+	"github.com/fatih/color"
 )
 
 type app struct {
@@ -16,8 +17,8 @@ type app struct {
 
 func main() {
 	i := log.New(os.Stdout, "INFO\t", log.Ldate|log.Ltime)
-	s := log.New(os.Stdout, "SUCCESS\t", log.Ldate|log.Ltime)
-	e := log.New(os.Stderr, "ERROR\t", log.Ldate|log.Ltime|log.Lshortfile)
+	s := log.New(os.Stdout, color.GreenString("SUCCESS\t"), log.Ldate|log.Ltime)
+	e := log.New(os.Stderr, color.RedString("ERROR\t"), log.Ldate|log.Ltime|log.Lshortfile)
 	a := &app{
 		infoLog:    i,
 		errorLog:   e,
