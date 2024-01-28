@@ -3,7 +3,6 @@ package generator
 import (
 	"log"
 	"os"
-	"os/exec"
 )
 
 type Generator struct {
@@ -37,10 +36,10 @@ func (g *Generator) Generate() {
 // and defines the type of project to generate
 func (g *Generator) generateProject() {
 	// Generate files and folders for the new project
-    data := ProjectData{
-        AppName: g.AppName,
-        AppType: g.AppType,
-    }
+	data := ProjectData{
+		AppName: g.AppName,
+		AppType: g.AppType,
+	}
 
 	projectType := g.AppType
 	suffix := "min"
@@ -84,16 +83,7 @@ func (g *Generator) generateProject() {
 		return
 	}
 	g.InfoLog.Println("running \"go mod init\"")
-	err = exec.Command("go", "mod", "init", g.ModName).Run()
-	if err != nil {
-		g.ErrorLog.Printf("Could not initialize go module: %v\n", err.Error())
-	}
-
-	g.InfoLog.Println("running \"git init\"")
-	err = exec.Command("git", "init").Run()
-
-	if err != nil {
-		g.ErrorLog.Printf("Could not initialize git repository: %v\n", err.Error())
-	}
+	g.executeCommand("go mod init")
+	g.executeCommand("git init")
 	g.SuccessLog.Printf("Successfully created %s\n", g.AppName)
 }

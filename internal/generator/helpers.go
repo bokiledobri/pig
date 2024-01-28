@@ -2,6 +2,7 @@ package generator
 
 import (
 	"os"
+	"os/exec"
 	"strings"
 
 	"github.com/bokiledobri/pig/internal/template"
@@ -13,12 +14,12 @@ func (g *Generator) makeFile(fileName string, suffix string, args any) error {
 	dirs := nameSlice[:len(nameSlice)-1]
 	f := nameSlice[len(nameSlice)-1]
 	dirName := g.AppName + "/" + strings.Join(dirs, "/")
-    fullFileName := g.AppName+"/"+fileName
-    g.InfoLog.Printf("Creating %q\n", fullFileName)
+	fullFileName := g.AppName + "/" + fileName
+	g.InfoLog.Printf("Creating %q\n", fullFileName)
 	t := template.New(f + "." + suffix)
 	t, err := t.Parse(fileName + "." + suffix)
 	if err != nil {
-		g.ErrorLog.Printf("Could not create %q: %v\n",fullFileName, err.Error())
+		g.ErrorLog.Printf("Could not create %q: %v\n", fullFileName, err.Error())
 		return err
 	}
 	err = os.MkdirAll(dirName, os.ModePerm)
@@ -37,6 +38,17 @@ func (g *Generator) makeFile(fileName string, suffix string, args any) error {
 		g.ErrorLog.Printf("Could not create %q: %v\n", fullFileName, err.Error())
 		return err
 	}
-    g.SuccessLog.Printf("%q successfully created", fullFileName)
-    return nil
+	g.SuccessLog.Printf("%q successfully created", fullFileName)
+	return nil
+}
+
+func (g *Generator) executeCommand(command string) {
+	c := strings.Split(command, " ")
+	f, r := c[0], c[1:]
+	g.InfoLog.Printf("Running %q\n", command)
+	err := exec.Command(f, r...).Run()
+
+	if err != nil {
+		g.ErrorLog.Printf("Could not run %q: %v\n", command, err.Error())
+	}
 }
