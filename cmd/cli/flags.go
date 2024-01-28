@@ -9,30 +9,30 @@ import (
 	"github.com/bokiledobri/pig/internal/generator"
 )
 
-func parseArgs() (error, *generator.Data) {
-	data := generator.NewData()
+func parseArgs() (error, *generator.Generator) {
+	g := generator.New()
 	fp := flag.NewFlagSet("project", flag.ExitOnError)
-	fp.StringVar(&data.AppType, "type", "cli", "Type of project (web|api|cli)")
-    
-        if len(os.Args)<2{
-            return errors.New("Please specify generator type (project)"), nil
-        }
+	fp.StringVar(&g.AppType, "type", "cli", "Type of project (web|api|cli)")
+
+	if len(os.Args) < 2 {
+		return errors.New("Please specify generator type (project)"), nil
+	}
 	switch os.Args[1] {
 	case "project":
-        if len(os.Args)<3{
-            return errors.New("Please provide the name of the project"), nil
-        }
-        data.ModName = os.Args[2]
-        s := strings.Split(data.ModName, "/")
-        data.AppName = s[len(s)-1]
-		err := fp.Parse(os.Args[3:])
-        data.GenType = "project"
-
-		if data.AppType != "web" && data.AppType != "api" && data.AppType != "cli" {
-			data.AppType = "cli"
+		if len(os.Args) < 3 {
+			return errors.New("Please provide the name of the project"), nil
 		}
-		return err, data
+		g.ModName = os.Args[2]
+		s := strings.Split(g.ModName, "/")
+		g.AppName = s[len(s)-1]
+		err := fp.Parse(os.Args[3:])
+		g.GenType = "project"
+
+		if g.AppType != "web" && g.AppType != "api" && g.AppType != "cli" {
+			g.AppType = "cli"
+		}
+		return err, g
 	}
-    return errors.New("Invalid generator type"), nil
+	return errors.New("Invalid generator type"), nil
 
 }

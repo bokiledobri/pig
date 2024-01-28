@@ -2,18 +2,15 @@ package main
 
 import (
 	"fmt"
-
-	"github.com/bokiledobri/pig/internal/generator"
 )
 
 func main() {
-	g := generator.New()
-	err, data := parseArgs()
+	err, g := parseArgs()
     if err!=nil{
         panic(err)
     }
-	switch data.GenType {
+	switch g.GenType {
 	case "project":
-		fmt.Println(g.GenerateProject(data))
+		fmt.Println(g.GenerateProject())
 	}
 }
