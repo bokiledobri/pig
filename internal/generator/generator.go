@@ -17,6 +17,7 @@ type Generator struct {
 
 func New(info, success, err *log.Logger) *Generator {
 	return &Generator{
+		GenType:    "",
 		AppType:    "cli",
 		InfoLog:    info,
 		SuccessLog: success,
@@ -25,6 +26,8 @@ func New(info, success, err *log.Logger) *Generator {
 }
 func (g *Generator) Generate() {
 	switch g.GenType {
+	case "":
+		return
 	case "project":
 		g.generateProject()
 	default:

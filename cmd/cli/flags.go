@@ -14,6 +14,7 @@ var projectTypes = "web|api|cli"
 
 func (a *app) parseArgs() {
 	g := generator.New(a.infoLog, a.successLog, a.errorLog)
+	a.generator = g
 	fp := flag.NewFlagSet("project", flag.ExitOnError)
 	fp.StringVar(&g.AppType, "type", "cli", fmt.Sprintf("Type of project (%s)", projectTypes))
 
@@ -39,7 +40,11 @@ func (a *app) parseArgs() {
 		if g.AppType != "web" && g.AppType != "api" && g.AppType != "cli" {
 			g.AppType = "cli"
 		}
-		a.generator = g
+		return
+	case "-v":
+        fallthrough
+	case "--version":
+		a.standardLog.Printf("Pig Is Generator\nversion %s\n", a.version)
 		return
 	default:
 		a.errorLog.Println("Invalid generator type")
