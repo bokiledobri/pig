@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/bokiledobri/pig/internal/generator"
+	"github.com/bokiledobri/pig/internal/template"
 )
 
 var genTypes = "project"
@@ -42,10 +43,26 @@ func (a *app) parseArgs() {
 		}
 		return
 	case "-v":
-        fallthrough
+		fallthrough
+	case "version":
+		fallthrough
 	case "--version":
 		a.standardLog.Printf("Pig Is Generator\nversion %s\n", a.version)
 		return
+	case "-h":
+		fallthrough
+	case "--help":
+		fallthrough
+	case "help":
+		t := template.New("usage.md")
+        t, err :=t.Parse("usage.md")
+        if err != nil{
+            a.errorLog.Println(err.Error())
+        }
+        err =t.Execute(os.Stdout, nil)
+        if err != nil{
+            a.errorLog.Println(err.Error())
+        }
 	default:
 		a.errorLog.Println("Invalid generator type")
 		return
