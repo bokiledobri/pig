@@ -15,6 +15,7 @@ type Generator struct {
 	ErrorLog   *log.Logger
 }
 
+//Returns a pointer to the basic generator.Generator instance
 func New(info, success, err *log.Logger) *Generator {
 	return &Generator{
 		GenType:    "",
@@ -24,6 +25,7 @@ func New(info, success, err *log.Logger) *Generator {
 		ErrorLog:   err,
 	}
 }
+//invokes correct generator based on the value of GenType
 func (g *Generator) Generate() {
 	switch g.GenType {
 	case "":
@@ -35,7 +37,7 @@ func (g *Generator) Generate() {
 	}
 }
 
-// Generates a new project. projectType can be "web", "api" or "cli",
+// Generates a new project
 // and defines the type of project to generate
 func (g *Generator) generateProject() {
 	// Generate files and folders for the new project
@@ -79,6 +81,7 @@ func (g *Generator) generateProject() {
 		}
 
 	}
+    //Run "go mod init" and "git init" in project directory
 	g.InfoLog.Printf("cd %s\n", g.AppName)
 	err = os.Chdir(g.AppName)
 	if err != nil {

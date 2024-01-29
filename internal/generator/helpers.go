@@ -8,6 +8,8 @@ import (
 	"github.com/bokiledobri/pig/internal/template"
 )
 
+//Finds a template in ./templates/fileName.suffix, passes it args, and writes
+//the result to fileName file
 func (g *Generator) makeFile(fileName string, suffix string, args any) error {
 
 	nameSlice := strings.Split(fileName, "/")
@@ -42,6 +44,7 @@ func (g *Generator) makeFile(fileName string, suffix string, args any) error {
 	return nil
 }
 
+//simply executes given os command, and prints the error if it fails
 func (g *Generator) executeCommand(command string) {
 	c := strings.Split(command, " ")
 	f, r := c[0], c[1:]
