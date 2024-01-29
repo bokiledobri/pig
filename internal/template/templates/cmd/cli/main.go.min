@@ -3,5 +3,9 @@ package main
 import "fmt"
 
 func main() {
-	fmt.Println("{{.AppName}} is a minimal project generated with pig")
+	fmt.Printf("%s is a minimal project generated with pig\n", appName())
+}
+
+func appName() string {
+	return "{{.AppName}}"
 }

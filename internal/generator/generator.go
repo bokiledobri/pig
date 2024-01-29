@@ -66,6 +66,13 @@ func (g *Generator) generateProject() {
 		return
 	}
 
+    //Generate main_test.go file
+	err = g.makeFile("cmd/"+projectType+"/main_test.go", suffix, data)
+	if err != nil {
+		return
+	}
+
+
 	if projectType == "web" || projectType == "api" {
 		//Generate handlers.go file
 		err = g.makeFile("cmd/"+projectType+"/handlers.go", suffix, data)

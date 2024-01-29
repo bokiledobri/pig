@@ -1,0 +1,14 @@
+package main
+
+import "testing"
+
+func TestAppName(t *testing.T) {
+	Compare(t, appName(), "{{.AppName}}")
+}
+
+func Compare[C comparable](t testing.TB, got, want C) {
+	t.Helper()
+	if got != want {
+		t.Errorf("got %v, want %v", got, want)
+	}
+}
