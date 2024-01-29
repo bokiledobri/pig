@@ -29,5 +29,3 @@
    ```bash
    pig project github.com/bokiledobri/cow --type=web
    ```
-## Notes
-   For now, I only used it on linux, and it worked fine. Possible bugs on different platforms because it's extensive usage of Go's os and os/exec packages.
