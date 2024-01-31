@@ -14,7 +14,6 @@ type Template struct {
 	template *template.Template
 }
 
-
 func New(name string) *Template {
 	t := template.New(name)
 	rt := &Template{
@@ -24,9 +23,12 @@ func New(name string) *Template {
 	return rt
 }
 
-func (t *Template) Parse(filename string) (*Template, error) {
+func (t *Template) Parse(patterns ...string) (*Template, error) {
 	templatesDir := "templates/"
-	temp, err := t.template.ParseFS(t.fs, templatesDir+filename)
+	for i, p := range patterns {
+		patterns[i] = templatesDir + p
+	}
+	temp, err := t.template.ParseFS(t.fs, patterns...)
 	tm := *t
 	tm.template = temp
 	return &tm, err

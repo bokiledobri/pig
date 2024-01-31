@@ -15,7 +15,7 @@ type Generator struct {
 	ErrorLog   *log.Logger
 }
 
-//Returns a pointer to the basic generator.Generator instance
+// Returns a pointer to the basic generator.Generator instance
 func New(info, success, err *log.Logger) *Generator {
 	return &Generator{
 		GenType:    "",
@@ -25,7 +25,8 @@ func New(info, success, err *log.Logger) *Generator {
 		ErrorLog:   err,
 	}
 }
-//invokes correct generator based on the value of GenType
+
+// invokes correct generator based on the value of GenType
 func (g *Generator) Generate() {
 	switch g.GenType {
 	case "":
@@ -66,12 +67,13 @@ func (g *Generator) generateProject() {
 		return
 	}
 
-    //Generate main_test.go file
-	err = g.makeFile("cmd/"+projectType+"/main_test.go", suffix, data)
-	if err != nil {
-		return
+	if projectType == "cli" {
+		//Generate main_test.go file
+		err = g.makeFile("cmd/"+projectType+"/main_test.go", suffix, data)
+		if err != nil {
+			return
+		}
 	}
-
 
 	if projectType == "web" || projectType == "api" {
 		//Generate handlers.go file
@@ -81,14 +83,30 @@ func (g *Generator) generateProject() {
 		}
 	}
 	if projectType == "web" {
-		//Generate home template
+		//Generate templates
+		err = g.makeFile("ui/html/base.tmpl", suffix, data)
+		if err != nil {
+			return
+		}
+
 		err = g.makeFile("ui/html/pages/home.tmpl", suffix, data)
 		if err != nil {
 			return
 		}
 
+		err = g.makeFile("ui/html/partials/header.tmpl", suffix, data)
+		if err != nil {
+			return
+		}
+
+		err = g.makeFile("ui/html/partials/footer.tmpl", suffix, data)
+		if err != nil {
+			return
+		}
+
+
 	}
-    //Run "go mod init" and "git init" in project directory
+	//Run "go mod init" and "git init" in project directory
 	g.InfoLog.Printf("cd %s\n", g.AppName)
 	err = os.Chdir(g.AppName)
 	if err != nil {

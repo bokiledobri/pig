@@ -7,29 +7,33 @@ import (
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	data := struct{Name string}{
+	data := struct{ Name string }{
 		Name: "{{.AppName}}",
 	}
-    if r.Method != "GET" {
-        w.Header().Set("Allow", "GET")
-        http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
-        return
-    }
-    if r.URL.Path !="/"{
-        http.NotFound(w, r)
-        return
-    }
-	ts, err := template.ParseFiles("ui/html/pages/home.tmpl")
-	if err!=nil{
+	if r.Method != "GET" {
+		w.Header().Set("Allow", "GET")
+		http.Error(w, "Method Not Allowed", http.StatusMethodNotAllowed)
+		return
+	}
+	if r.URL.Path != "/" {
+		http.NotFound(w, r)
+		return
+	}
+	ts, err := template.ParseFiles(
+		"ui/html/base.tmpl",
+		"ui/html/pages/home.tmpl",
+		"ui/html/partials/header.tmpl",
+		"ui/html/partials/footer.tmpl",
+	)
+	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
-	err = ts.Execute(w, data)
-	if err!=nil{
+	err = ts.ExecuteTemplate(w, "base", data)
+	if err != nil {
 		log.Println(err.Error())
 		http.Error(w, "Internal Server Error", http.StatusInternalServerError)
 		return
 	}
 }
-
