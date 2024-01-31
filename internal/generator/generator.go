@@ -104,6 +104,8 @@ func (g *Generator) generateProject() {
 			return
 		}
 
+        g.generateAssets()
+
 
 	}
 	//Run "go mod init" and "git init" in project directory

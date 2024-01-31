@@ -1,6 +1,7 @@
 # Change these variables as necessary.
 MAIN_PACKAGE_PATH := ./cmd/cli
 BINARY_NAME := pig
+TEST=cli
 
 # ==================================================================================== #
 # HELPERS
@@ -50,7 +51,12 @@ audit:
 test:
 	go test -v -race -buildvcs ./...
 
-##install: install binary in /usr/local/bin
+## test_product reinstalls the binary, runs the product, and then shows the results
+.PHONY: test_product
+test_product:
+	sudo make install && pig project pratte --type=$$TYPE && cd pratte && make run ; cd .. && rm -rf pratte 
+
+## install: install binary in /usr/local/bin
 .PHONY: install
 install:
 	go build -o=/usr/local/bin/$(BINARY_NAME) ./cmd/cli 

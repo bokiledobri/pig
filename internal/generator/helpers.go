@@ -55,3 +55,8 @@ func (g *Generator) executeCommand(command string) {
 		g.ErrorLog.Printf("Could not run %q: %v\n", command, err.Error())
 	}
 }
+
+//generates assets
+func (g *Generator) generateAssets(){
+		_ = g.makeFile("ui/static/css/style.css", "css", nil)
+}

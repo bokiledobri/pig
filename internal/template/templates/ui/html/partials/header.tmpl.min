@@ -1,7 +1,8 @@
 {{define "header"}}
-  <header>
-    <nav>
-    <a href="/">Home</a>
+  <header class="header">
+  <h1 class="logo"><a href="/">{{.Name}}</a></h1>
+    <nav class="nav">
+    <a class="nav-item" href="/">Home</a>
     </nav>
   </header>
 {{end}}
