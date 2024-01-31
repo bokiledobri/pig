@@ -8,7 +8,7 @@ import (
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct{ Name string }{
-		Name: "{{.AppName}}",
+		Name: "<%.AppName%>",
 	}
 	if r.Method != "GET" {
 		w.Header().Set("Allow", "GET")

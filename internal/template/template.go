@@ -16,6 +16,7 @@ type Template struct {
 
 func New(name string) *Template {
 	t := template.New(name)
+    t.Delims("<%", "%>")
 	rt := &Template{
 		fs:       fs,
 		template: t,

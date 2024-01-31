@@ -3,7 +3,7 @@ package main
 import "testing"
 
 func TestAppName(t *testing.T) {
-	Compare(t, appName(), "{{.AppName}}")
+	Compare(t, appName(), "<%.AppName%>")
 }
 
 func Compare[C comparable](t testing.TB, got, want C) {
